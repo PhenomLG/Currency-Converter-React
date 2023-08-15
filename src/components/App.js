@@ -3,6 +3,8 @@ import './App.scss';
 
 function App() {
   const [rate, setRate] = useState(0);
+  const [currency, setCurrency] = useState("USD");
+
   useEffect(() => {
     async function fetchRates(){
       const rates = await getRateInfo();
@@ -21,6 +23,12 @@ function App() {
     e.target.classList.add('app__btn_active');
 
     setRate(handleRateResult(rates[currency]));
+    setCurrency(currency);
+  }
+
+  async function onUpdateClick(){
+    const rates = await getRateInfo();
+    setRate(handleRateResult(rates[currency]));
   }
 
   return (
@@ -30,7 +38,7 @@ function App() {
           <button className='app__btn app__btn_active' onClick={onCurrencyClick}>USD</button>
           <button className='app__btn' onClick={onCurrencyClick}>EUR</button>
           <button className='app__btn' onClick={onCurrencyClick}>GBP</button>
-          <button className='app__btn'>update</button>
+          <button className='app__btn' onClick={onUpdateClick}>update</button>
         </div>
     </div>
   );
