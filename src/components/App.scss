@@ -23,14 +23,19 @@
         display: flex;
         justify-content: space-around;
         margin-top: 40px;
+    }
 
-        button {
-            padding: 7px 12px;
-            cursor: pointer;
-            background-color: #6B7A8F;
-            color: white;
-            text-transform: uppercase;
-          }
-      }
+    &__btn{
+        padding: 7px 12px;
+        cursor: pointer;
+        background-color: #6B7A8F;
+        color: white;
+        text-transform: uppercase;
+        transition: all 0.5s;   
+
+        &_active{
+            background-color: black;
+        }
+    }
 
 }

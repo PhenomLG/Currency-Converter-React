@@ -3,21 +3,34 @@ import './App.scss';
 
 function App() {
   const [rate, setRate] = useState(0);
-
-  async function onClickBtn(e) {
+  useEffect(() => {
+    async function fetchRates(){
+      const rates = await getRateInfo();
+      setRate(handleRateResult(rates["USD"]));
+    }
+    fetchRates();
+  }, []);
+  
+  async function onCurrencyClick(e) {
     const currency = e.target.innerText;
     const rates = await getRateInfo();
-    setRate((1 / rates[currency]).toFixed(2));
+
+    e.target.closest('.app__controls').childNodes.forEach(btn => {
+      btn.classList.remove('app__btn_active');
+    });
+    e.target.classList.add('app__btn_active');
+
+    setRate(handleRateResult(rates[currency]));
   }
 
   return (
     <div className="app">
         <div className='app__currency'>{rate} RUB</div>
         <div className="app__controls">
-          <button onClick={onClickBtn}>USD</button>
-          <button onClick={onClickBtn}>EUR</button>
-          <button onClick={onClickBtn}>GBP</button>
-          <button>update</button>
+          <button className='app__btn app__btn_active' onClick={onCurrencyClick}>USD</button>
+          <button className='app__btn' onClick={onCurrencyClick}>EUR</button>
+          <button className='app__btn' onClick={onCurrencyClick}>GBP</button>
+          <button className='app__btn'>update</button>
         </div>
     </div>
   );
@@ -30,4 +43,9 @@ const getRateInfo = async () => {
     .catch(err => console.log(err));
   return result;
 }
+
+const handleRateResult = (rate) => {
+  return (1/ rate).toFixed(2);
+}
+
 export default App;
