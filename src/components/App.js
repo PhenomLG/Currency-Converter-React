@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+import ApiService from '../services/ApiService';
 import './App.scss';
+
+const api = new ApiService();
 
 function App() {
   const [rate, setRate] = useState(0);
@@ -7,28 +10,28 @@ function App() {
 
   useEffect(() => {
     async function fetchRates(){
-      const rates = await getRateInfo();
-      setRate(handleRateResult(rates["USD"]));
+      const rate = await api.getRateInfo(currency);
+      setRate(rate);
     }
     fetchRates();
   }, []);
   
   async function onCurrencyClick(e) {
     const currency = e.target.innerText;
-    const rates = await getRateInfo();
+    const rate = await api.getRateInfo(currency);
 
     e.target.closest('.app__controls').childNodes.forEach(btn => {
       btn.classList.remove('app__btn_active');
     });
     e.target.classList.add('app__btn_active');
 
-    setRate(handleRateResult(rates[currency]));
+    setRate(rate);
     setCurrency(currency);
   }
 
   async function onUpdateClick(){
-    const rates = await getRateInfo();
-    setRate(handleRateResult(rates[currency]));
+    const rate = await api.getRateInfo(currency);
+    setRate(rate);
   }
 
   return (
@@ -42,18 +45,6 @@ function App() {
         </div>
     </div>
   );
-}
-
-const getRateInfo = async () => {
-  const result = await fetch("https://www.cbr-xml-daily.ru/latest.js")
-    .then(data => data.json())
-    .then(data => data.rates)
-    .catch(err => console.log(err));
-  return result;
-}
-
-const handleRateResult = (rate) => {
-  return (1/ rate).toFixed(2);
 }
 
 export default App;
