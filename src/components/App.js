@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     async function fetchRates(){
-      const rate = await api.getRateInfo(currency);
+      const rate = await api.getRate(currency);
       setRate(rate);
     }
     fetchRates();
@@ -18,7 +18,7 @@ function App() {
   
   async function onCurrencyClick(e) {
     const currency = e.target.innerText;
-    const rate = await api.getRateInfo(currency);
+    const rate = await api.getRate(currency);
 
     e.target.closest('.app__controls').childNodes.forEach(btn => {
       btn.classList.remove('app__btn_active');
@@ -30,7 +30,7 @@ function App() {
   }
 
   async function onUpdateClick(){
-    const rate = await api.getRateInfo(currency);
+    const rate = await api.getRate(currency);
     setRate(rate);
   }
 

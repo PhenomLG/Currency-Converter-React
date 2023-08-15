@@ -1,5 +1,5 @@
 class ApiService{
-    getRateInfo = async (currency) => {
+    getRate = async (currency) => {
         const result = await fetch("https://www.cbr-xml-daily.ru/latest.js")
           .then(data => data.json())
           .then(data => data.rates)
