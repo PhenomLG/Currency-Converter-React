@@ -9,10 +9,7 @@ function App() {
   const [currency, setCurrency] = useState("USD");
 
   useEffect(() => {
-    async function fetchRates(){
-      const rate = await api.getRate(currency);
-      setRate(rate);
-    }
+    const fetchRates = async() => setRate(await api.getRate(currency));
     fetchRates();
   }, []);
   
@@ -29,11 +26,8 @@ function App() {
     setCurrency(currency);
   }
 
-  async function onUpdateClick(){
-    const rate = await api.getRate(currency);
-    setRate(rate);
-  }
-
+  const onUpdateClick = async() => setRate(await api.getRate(currency));
+  
   return (
     <div className="app">
         <div className='app__currency'>{rate} RUB</div>
